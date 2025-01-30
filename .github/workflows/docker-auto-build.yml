@@ -257,4 +257,5 @@ jobs:
           push: true
           tags: '${{ steps.release.outputs.tags }}'
           build-args: TAG=${{ steps.release.outputs.git_tag }}
+          platforms: linux/amd64,linux/arm64
   
