@@ -50,6 +50,7 @@ RUN python3 -m pip install --no-cache-dir --upgrade pip && \
     python3 -m pip install --no-cache-dir --upgrade setuptools
 # RUN python3 -m pip install --no-cache-dir --pre rucio[oracle,mysql,postgresql,globus]==$TAG
 
+RUN dnf install -y git
 RUN git clone https://github.com/lobis/rucio.git /tmp/rucio-fork
 RUN cd /tmp/rucio-fork && git checkout master && python3 -m pip install --no-cache-dir --pre .[oracle,mysql,postgresql,globus]
 
