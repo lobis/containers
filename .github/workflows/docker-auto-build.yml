@@ -1,8 +1,6 @@
 name: docker-auto-build
 
 on:
-  release: 
-    types: [created]
   workflow_dispatch:
 
 jobs:
@@ -107,7 +105,7 @@ jobs:
           CONTEXT=$(echo "${{ matrix.context }}")
           CONTEXT_DIR=$(echo "${CONTEXT}" | cut -d, -f1 )
           PARENT=$(echo "${CONTEXT}" | cut -d, -f2 | xargs)
-          GIT_TAG=${{ steps.release_tag.outputs.version }}
+          GIT_TAG=dev
           BASE_TAG="${{ github.repository_owner}}/"
           PARENT_IMAGE_AVAILIBILITY_INTERVAL=60
           MAX_ATTEMPTS=10
@@ -257,7 +255,6 @@ jobs:
           fi
 
       - name: Build and push
-        if: steps.release.outputs.tags != ''
         id: docker_build
         uses: docker/build-push-action@v6.13.0
         with:
@@ -265,6 +262,6 @@ jobs:
           file: ./${{ steps.release.outputs.context_dir }}/${{ steps.release.outputs.file }}
           platforms: ${{ steps.determine_target_platforms.outputs.platforms }}
           push: true
-          tags: '${{ steps.release.outputs.tags }}'
-          build-args: TAG=${{ steps.release.outputs.git_tag }}
+          tags: dev
+          build-args: TAG=dev
 
